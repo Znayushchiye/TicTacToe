@@ -43,7 +43,7 @@ void TicTacToe::humanTurn(char (*position)[9], int n) // Works Perfectly
 {
     (*position)[n - 1] = 'X';
 }
-void TicTacToe::computerTurn(char (*position)[9])
+void TicTacToe::computerTurn(char (*position)[9]) // Works Perfectly
 {
     int random;
     do
@@ -85,8 +85,9 @@ int main()
     char position[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     srand(time(0));
     // TicTacToe game;
-    // return 0;
+    // game.computerTurn(&position);
     // game.printTable(&position);
+    // return 0;
 
     std::string start;
 
@@ -98,38 +99,38 @@ int main()
     std::cin >> start;
 
     if (std::toupper(start.at(0)) == 'Y')
+    {
+        TicTacToe game;
+        int count = 0;
+        do
         {
-            TicTacToe game;
-            int count = 0;
-            do
-            {
-                count++;
-                system("cls");
-                std::cout << "------------------------------------------\n";
-                std::cout << ((count != 1) ? ("Current Table:\n\n") : ("Game start\n\n"));
-                game.printTable(&position);
-                int choice;
-                do
-                {
-                    std::cout << "\n\nEnter your choice : ";
-                    std::cin >> choice;
-                    if (game.alreadyTaken(position, choice))
-                    {
-                        std::cout << "\nWrong choice! Enter another.\n";
-                        continue;
-                    }
-                } while (false);
-                game.humanTurn(&position, choice);
-                game.computerTurn(&position);
-                std::cout << "------------------------------------------\n";
-            } while (game.hasWon(position));
+            count++;
             system("cls");
             std::cout << "------------------------------------------\n";
-            std::cout << "Final Table:\n\n";
+            std::cout << ((count != 1) ? ("Current Table:\n\n") : ("Game start\n\n"));
             game.printTable(&position);
-            game.winParty(position);
+            int choice;
+            do
+            {
+                std::cout << "\n\nEnter your choice : ";
+                std::cin >> choice;
+                if (game.alreadyTaken(position, choice))
+                {
+                    std::cout << "\nWrong choice! Enter another.\n";
+                    continue;
+                }
+            } while (false);
+            game.humanTurn(&position, choice);
+            game.computerTurn(&position);
             std::cout << "------------------------------------------\n";
-        }
+        } while (!game.hasWon(position));
+        system("cls");
+        std::cout << "------------------------------------------\n";
+        std::cout << "Final Table:\n\n";
+        game.printTable(&position);
+        game.winParty(position);
+        std::cout << "------------------------------------------\n";
+    }
     else
     {
         std::cout << "Fin.\n";
